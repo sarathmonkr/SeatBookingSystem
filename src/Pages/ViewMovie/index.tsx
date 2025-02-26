@@ -78,8 +78,11 @@ const ViewMovie = () => {
                             <p className="text-lg text-gray-600 mb-1">
                                 Rating: <span className="font-bold text-green-600">{movie?.rating}</span>
                             </p>
-                            <p className="text-lg leading-relaxed text-gray-700 mb-4">{movie?.overview}</p>
-                            <p className="text-lg leading-relaxed text-gray-700 mb-4">{movie?.plot_summary}</p>
+                            <br />
+                            <h6 className="text-xl font-bold text-gray-800 mb-2">Overview</h6>
+                            <p className="text-lg text-gray-600 mb-4">{movie?.overview}</p>
+                            <h6 className="text-xl font-bold text-gray-800 mb-2">Plot Summary</h6>
+                            <p className="text-lg text-gray-600 mb-4">{movie?.plot_summary}</p>
                         </div>
                         <button
                             onClick={onBookTicketClick}
@@ -87,6 +90,7 @@ const ViewMovie = () => {
                         >
                             Book Ticket
                         </button>
+
                     </div>
                 </div>
             </div>
