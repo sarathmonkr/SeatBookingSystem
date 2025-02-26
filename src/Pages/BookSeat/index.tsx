@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { MovieType } from '../../Utils/Data/movies';
 import { getMovieById } from '../../Services/movies.service';
 import BreadCrumb from '../../Components/BreadCrumb';
+import BookingConfirmModal from '../../Components/BookSeat/ConfirmModal';
 
 const rows = 6;
 const seatsPerRow = 10;
@@ -28,6 +29,7 @@ const BookSeat = () => {
     const [movie, setMovie] = useState<MovieType | undefined>(undefined);
     const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
     const [totalCost, setTotalCost] = useState<number>(0);
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
         fetchMovie(movieId);
@@ -48,14 +50,29 @@ const BookSeat = () => {
         setMovie(movie);
     }
 
+    function onCancelConfirmClick() {
+        setIsConfirmModalOpen(false);
+    }
+
+    function onConfirmBookingClick() {
+        setIsConfirmModalOpen(false);
+        navigate('/');
+        toast.success('Booking Confirmed!', {
+            toastId: 'booking-confirmed'
+        });
+    }
+
+    function onBookNowClick() {
+        setIsConfirmModalOpen(true);
+    }
+
     const handleSeatClick = (seatId: string, price: number) => {
         if (selectedSeats.includes(seatId)) {
             setSelectedSeats(selectedSeats.filter(seat => seat !== seatId));
             setTotalCost(totalCost - price);
         } else {
             if (selectedSeats.length >= 8) {
-                console.error('You can select at most 8 seats.');
-                toast.error('You can select at most 8 seats.', {
+                toast.error('You can only select up to 8 seats', {
                     toastId: 'max-seats',
                     autoClose: 3000,
                 });
@@ -100,8 +117,9 @@ const BookSeat = () => {
                     }
                 ]}
             />
+
             <div className="book-seat p-6 max-w-4xl mx-auto">
-                <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Book Your Seat</h1>
+                <h1 className="text-3xl font-bold mb-6 text-start text-gray-800">Select Your Seats {movie?.title ? `for ${movie?.title}` : ""}</h1>
                 <div>
                     <div className="movie-details mb-8 p-6 border rounded bg-white shadow-lg flex items-start space-x-6">
                         <img src={movie?.poster_path} alt={movie?.title} className="w-32 h-auto rounded shadow-md" />
@@ -118,12 +136,20 @@ const BookSeat = () => {
                     {renderSeats()}
                 </div>
 
-                <div className="booking-summary p-6 border rounded bg-white shadow-lg">
-                    <h3 className="text-xl font-bold mb-4 text-gray-800">Booking Summary</h3>
-                    <p className="mb-4 text-gray-600">Selected Seats: {selectedSeats.join(', ')}</p>
-                    <p className="text-lg font-bold mb-4 text-gray-800">Total Cost: ₹{totalCost}</p>
-                    <button className="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 transition" onClick={() => alert('Booking Confirmed!')}>Book Now</button>
-                </div>
+                {selectedSeats.length > 0 && (
+                    <div className="booking-summary p-6 border rounded bg-white shadow-lg">
+                        <h3 className="text-xl font-bold mb-4 text-gray-800">Booking Summary</h3>
+                        <p className="mb-4 text-gray-600">Selected Seats: {selectedSeats.join(', ')}</p>
+                        <p className="text-lg font-bold mb-4 text-gray-800">Total Cost: ₹{totalCost}</p>
+                        <button className="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 transition" onClick={onBookNowClick}>Book Now</button>
+                    </div>
+                )}
+
+                <BookingConfirmModal
+                    isOpen={isConfirmModalOpen}
+                    onCancel={() => onCancelConfirmClick()}
+                    onConfirm={() => onConfirmBookingClick()}
+                />
             </div>
         </>
     );
