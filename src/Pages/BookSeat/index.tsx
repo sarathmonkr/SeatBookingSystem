@@ -27,7 +27,8 @@ const BookSeat = () => {
     const navigate = useNavigate();
 
     const [movie, setMovie] = useState<MovieType | undefined>(undefined);
-    const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+    const [selectedSeats, setSelectedSeats] = useState<string[]>([]);    
+    const [disabledSeats, setDisabledSeats] = useState<string[]>(['B5','B6','B7', 'D8', 'D7']);// already booked seats
     const [totalCost, setTotalCost] = useState<number>(0);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
 
@@ -56,6 +57,9 @@ const BookSeat = () => {
 
     function onConfirmBookingClick() {
         setIsConfirmModalOpen(false);
+        setDisabledSeats([...disabledSeats, ...selectedSeats]);
+        setSelectedSeats([]);
+        setTotalCost(0);
         navigate('/');
         toast.success('Booking Confirmed!', {
             toastId: 'booking-confirmed'
@@ -67,6 +71,8 @@ const BookSeat = () => {
     }
 
     const handleSeatClick = (seatId: string, price: number) => {
+        if (disabledSeats.includes(seatId)) return;
+
         if (selectedSeats.includes(seatId)) {
             setSelectedSeats(selectedSeats.filter(seat => seat !== seatId));
             setTotalCost(totalCost - price);
@@ -90,11 +96,13 @@ const BookSeat = () => {
                 const seatId = `${String.fromCharCode(65 + row)}${seat + 1}`;
                 const price = getSeatPrice(row);
                 const isSelected = selectedSeats.includes(seatId);
+                const isDisabled = disabledSeats.includes(seatId);
                 seats.push(
                     <div
                         key={seatId}
-                        className={`seat cursor-pointer p-2 m-1 border rounded text-center ${isSelected ? 'bg-blue-500 text-white' : 'bg-gray-200'} ${price === seatPrices.silver ? 'border-gray-400' : price === seatPrices.gold ? 'border-yellow-500' : 'border-red-500'}`}
+                        className={`seat cursor-pointer p-2 m-1 border-2 rounded text-center ${isSelected ? 'bg-blue-500 text-white' : 'bg-gray-200'} ${isDisabled ? 'bg-gray-400 cursor-not-allowed' : 'transition-transform transform hover:scale-110 duration-300 ease-in-out'} ${price === seatPrices.silver ? 'border-gray-400' : price === seatPrices.gold ? 'border-yellow-500' : 'border-red-500'}`}
                         onClick={() => handleSeatClick(seatId, price)}
+                        title={isDisabled ? 'Seat not available' : isSelected ? 'Selected' : 'Select seat'}
                     >
                         {seatId}
                     </div>
@@ -137,11 +145,26 @@ const BookSeat = () => {
                 </div>
 
                 {selectedSeats.length > 0 && (
-                    <div className="booking-summary p-6 border rounded bg-white shadow-lg">
+                    <div className="booking-summary p-6 border rounded-lg bg-white shadow-lg ">
                         <h3 className="text-xl font-bold mb-4 text-gray-800">Booking Summary</h3>
-                        <p className="mb-4 text-gray-600">Selected Seats: {selectedSeats.join(', ')}</p>
+                        <div className="mb-4 text-gray-600">
+                            <strong>Selected Seats:</strong>
+                            <div className="flex flex-wrap mt-2">
+                                {selectedSeats.map(seat => (
+                                    <div key={seat} className="flex items-center bg-gray-100 p-2 m-1 border rounded-lg shadow-sm transition-transform transform hover:scale-105 duration-300 ease-in-out">
+                                        <span className="mr-2 font-semibold text-gray-700">{seat}</span>
+                                        <button
+                                            className="text-gray-500 hover:text-red-500 text-lg cursor-pointer transition-colors duration-300 ease-in-out"
+                                            onClick={() => handleSeatClick(seat, getSeatPrice(seat.charCodeAt(0) - 65))}
+                                        >
+                                            &times;
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                         <p className="text-lg font-bold mb-4 text-gray-800">Total Cost: ₹{totalCost}</p>
-                        <button className="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 transition" onClick={onBookNowClick}>Book Now</button>
+                        <button className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-transform transform hover:scale-101 duration-300 ease-in-out cursor-pointer" onClick={onBookNowClick}>Book Now</button>
                     </div>
                 )}
 
