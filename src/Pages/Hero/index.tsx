@@ -32,7 +32,7 @@ const LandingPage = () => {
                     <label htmlFor="category" className="text-lg font-medium text-gray-700">Category</label>
                     <select
                         onChange={(e) => setSelectedCategory(e.target.value)}
-                        name="category" id="category" className="border border-gray-300 p-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-grey-500 focus:border-grey-500 transition duration-150 ease-in-out">
+                        name="category" id="category" className="border  p-2 rounded-md shadow-sm focus:outline-none  transition duration-150 ease-in-out">
                         <option value="">All</option>
                         {categories?.map((category, index) => (
                             <option key={index} value={category}>{category}</option>
