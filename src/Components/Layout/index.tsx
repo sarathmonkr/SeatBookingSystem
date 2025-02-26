@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import Header from '../Header';
 import Footer from '../Footer';
 import { Outlet } from 'react-router-dom';
@@ -18,13 +18,13 @@ const LayoutContainer: React.FC = () => {
     return (
         <div className='min-h-screen flex flex-col'>
             {showWelcome ? (<WelcomeAnimation />) : (
-                <>
+                <Fragment>
                     <Header />
                     <main className="flex-grow bg-gray-300">
                         <Outlet />
                     </main>
                     <Footer />
-                </>
+                </Fragment>
             )}
         </div>
     );

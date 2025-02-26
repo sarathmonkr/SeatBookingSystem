@@ -149,10 +149,10 @@ const BookSeat = () => {
                         <h3 className="text-xl font-bold mb-4 text-gray-800">Booking Summary</h3>
                         <div className="mb-4 text-gray-600">
                             <strong>Selected Seats:</strong>
-                            <div className="flex flex-wrap mt-2">
+                            <div className="grid grid-cols-4 gap-2 mt-2">
                                 {selectedSeats.map(seat => (
-                                    <div key={seat} className="flex items-center bg-gray-100 p-2 m-1 border rounded-lg shadow-sm transition-transform transform hover:scale-105 duration-300 ease-in-out">
-                                        <span className="mr-2 font-semibold text-gray-700">{seat}</span>
+                                    <div key={seat} className="flex justify-between items-center bg-gray-100 p-2 border rounded-lg shadow-sm transition-transform transform hover:scale-105 duration-300 ease-in-out">
+                                        <span className="mr-2 font-semibold text-gray-700">{seat} - ₹{getSeatPrice(seat.charCodeAt(0) - 65)}</span>
                                         <button
                                             className="text-gray-500 hover:text-red-500 text-lg cursor-pointer transition-colors duration-300 ease-in-out"
                                             onClick={() => handleSeatClick(seat, getSeatPrice(seat.charCodeAt(0) - 65))}
