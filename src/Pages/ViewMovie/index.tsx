@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getMovieById } from '../../Services/movies.service';
 import { MovieType } from '../../Utils/Data/movies';
 import BreadCrumb from '../../Components/BreadCrumb';
@@ -9,7 +9,6 @@ const ViewMovie = () => {
     const params = useParams();
     const movieId = params?.id;
     const navigate = useNavigate();
-
     const [movie, setMovie] = useState<MovieType | undefined>(undefined)
 
     useEffect(() => {
@@ -49,21 +48,46 @@ const ViewMovie = () => {
                 ]}
             />
 
-            <div className="flex flex-col items-center p-6 bg-gray-100 min-h-screen ">
-
-                <img src={movie?.poster_path} alt={movie?.title} className="w-64 h-auto rounded-lg shadow-lg mb-6 transition-transform transform hover:scale-105" />
-                <div className="text-center max-w-lg bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-101">
-                    <h1 className="text-4xl font-bold mb-4 text-gray-800">{movie?.title}</h1>
-                    <p className="text-xl text-gray-600 mb-1">
-                        Category: <span className="font-bold text-green-600">{movie?.category}</span>
-                    </p>
-                    <p className="text-lg leading-relaxed text-gray-700 mb-4">{movie?.overview}</p>
-                    <button
-                        onClick={onBookTicketClick}
-                        className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors cursor-pointer"
-                    >
-                        Book Ticket
-                    </button>
+            <div className="flex flex-col items-center p-6 ">
+                <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden w-full md:w-2/3">
+                    <img src={movie?.poster_path} alt={movie?.title} className="w-full md:w-1/3 h-[40rem] object-cover transition-transform transform hover:scale-105" />
+                    <div className="p-6 flex flex-col justify-between w-full md:w-2/3 h-[30rem]">
+                        <div>
+                            <h1 className="text-4xl font-bold mb-4 text-gray-800">{movie?.title}</h1>
+                            <p className="text-xl text-gray-600 mb-1">
+                                Category: <span className="font-bold text-green-600">{movie?.category}</span>
+                            </p>
+                            <p className="text-lg text-gray-600 mb-1">
+                                Release Date: <span className="font-bold text-green-600">{movie?.release_date}</span>
+                            </p>
+                            <p className="text-lg text-gray-600 mb-1">
+                                Duration: <span className="font-bold text-green-600">{movie?.duration} mins</span>
+                            </p>
+                            <p className="text-lg text-gray-600 mb-1">
+                                Language: <span className="font-bold text-green-600">{movie?.language}</span>
+                            </p>
+                            <p className="text-lg text-gray-600 mb-1">
+                                Genre: <span className="font-bold text-green-600">{movie?.genre.join(', ')}</span>
+                            </p>
+                            <p className="text-lg text-gray-600 mb-1">
+                                Director: <span className="font-bold text-green-600">{movie?.director}</span>
+                            </p>
+                            <p className="text-lg text-gray-600 mb-1">
+                                Cast: <span className="font-bold text-green-600">{movie?.cast.join(', ')}</span>
+                            </p>
+                            <p className="text-lg text-gray-600 mb-1">
+                                Rating: <span className="font-bold text-green-600">{movie?.rating}</span>
+                            </p>
+                            <p className="text-lg leading-relaxed text-gray-700 mb-4">{movie?.overview}</p>
+                            <p className="text-lg leading-relaxed text-gray-700 mb-4">{movie?.plot_summary}</p>
+                        </div>
+                        <button
+                            onClick={onBookTicketClick}
+                            className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors cursor-pointer self-start"
+                        >
+                            Book Ticket
+                        </button>
+                    </div>
                 </div>
             </div>
         </>
