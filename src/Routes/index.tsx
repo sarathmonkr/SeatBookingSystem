@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LayoutContainer from '../Components/Layout';
+
 const LandingPage = React.lazy(() => import('../Pages/Hero'));
 const MovieViewPage = React.lazy(() => import('../Pages/ViewMovie'))
 const BookSeat = React.lazy(() => import('../Pages/BookSeat'))
