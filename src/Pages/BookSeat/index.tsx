@@ -100,7 +100,7 @@ const BookSeat = () => {
                 seats.push(
                     <div
                         key={seatId}
-                        className={`seat cursor-pointer p-2 m-1 border-2 rounded text-center ${isSelected ? 'bg-blue-500 text-white' : 'bg-gray-200'} ${isDisabled ? 'bg-gray-400 cursor-not-allowed' : 'transition-transform transform hover:scale-110 duration-300 ease-in-out'} ${price === seatPrices.silver ? 'border-gray-400' : price === seatPrices.gold ? 'border-yellow-500' : 'border-red-500'}`}
+                        className={`seat cursor-pointer p-2 m-1 border-2 rounded text-center text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl ${isSelected ? 'bg-blue-500 text-white' : 'bg-gray-200'} ${isDisabled ? 'bg-gray-400 cursor-not-allowed' : 'transition-transform transform hover:scale-110 duration-300 ease-in-out'} ${price === seatPrices.silver ? 'border-gray-400' : price === seatPrices.gold ? 'border-yellow-500' : 'border-red-500'}`}
                         onClick={() => handleSeatClick(seatId, price)}
                         title={isDisabled ? 'Seat not available' : isSelected ? 'Selected' : 'Select seat'}
                     >
@@ -129,8 +129,8 @@ const BookSeat = () => {
             <div className="book-seat p-6 max-w-4xl mx-auto">
                 <h1 className="text-3xl font-bold mb-6 text-start text-gray-800">Select Your Seats {movie?.title ? `for ${movie?.title}` : ""}</h1>
                 <div>
-                    <div className="movie-details mb-8 p-6 border rounded bg-white shadow-lg flex items-start space-x-6">
-                        <img src={movie?.poster_path} alt={movie?.title} className="w-32 h-auto rounded shadow-md" />
+                    <div className="movie-details mb-8 p-6 border rounded bg-white shadow-lg flex flex-col md:flex-row items-start space-y-6 md:space-y-0 md:space-x-6">
+                        <img src={movie?.poster_path} alt={movie?.title} className="w-full md:w-32 h-auto rounded shadow-md" />
                         <div>
                             <h2 className="text-2xl font-bold mb-2 text-gray-800">{movie?.title}</h2>
                             <p className="mb-2 text-gray-600"><strong>Category:</strong> {movie?.category}</p>
@@ -140,16 +140,16 @@ const BookSeat = () => {
                     <SeatLegend seatPrices={seatPrices} />
                 </div>
 
-                <div className="seat-layout grid grid-cols-10 gap-2 mb-8">
+                <div className="seat-layout grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-10 gap-2 mb-8">
                     {renderSeats()}
                 </div>
 
                 {selectedSeats.length > 0 && (
-                    <div className="booking-summary p-6 border rounded-lg bg-white shadow-lg ">
-                        <h3 className="text-xl font-bold mb-4 text-gray-800">Booking Summary</h3>
+                    <div className="booking-summary p-4 sm:p-6 border rounded-lg bg-white shadow-lg">
+                        <h3 className="text-lg sm:text-xl font-bold mb-4 text-gray-800">Booking Summary</h3>
                         <div className="mb-4 text-gray-600">
                             <strong>Selected Seats:</strong>
-                            <div className="grid grid-cols-4 gap-2 mt-2">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mt-2">
                                 {selectedSeats.map(seat => (
                                     <div key={seat} className="flex justify-between items-center bg-gray-100 p-2 border rounded-lg shadow-sm transition-transform transform hover:scale-105 duration-300 ease-in-out">
                                         <span className="mr-2 font-semibold text-gray-700">{seat} - ₹{getSeatPrice(seat.charCodeAt(0) - 65)}</span>
@@ -164,7 +164,7 @@ const BookSeat = () => {
                             </div>
                         </div>
                         <p className="text-lg font-bold mb-4 text-gray-800">Total Cost: ₹{totalCost}</p>
-                        <button className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-transform transform hover:scale-101 duration-300 ease-in-out cursor-pointer" onClick={onBookNowClick}>Book Now</button>
+                        <button className="bg-blue-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-blue-600 transition-transform transform hover:scale-101 duration-300 ease-in-out cursor-pointer" onClick={onBookNowClick}>Book Now</button>
                     </div>
                 )}
 

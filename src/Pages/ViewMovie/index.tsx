@@ -51,7 +51,7 @@ const ViewMovie = () => {
             <div className="flex flex-col items-center p-6 ">
                 <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden w-full md:w-2/3">
                     <img src={movie?.poster_path} alt={movie?.title} className="w-full md:w-1/3 h-[40rem] object-cover transition-transform transform hover:scale-105" />
-                    <div className="p-6 flex flex-col justify-between w-full md:w-2/3 h-[40rem]">
+                    <div className="p-6 flex flex-col justify-between w-full md:w-2/3 h-auto md:h-[40rem]">
                         <div>
                             <h1 className="text-4xl font-bold mb-4 text-gray-800">{movie?.title}</h1>
                             <p className="text-xl text-gray-600 mb-1">

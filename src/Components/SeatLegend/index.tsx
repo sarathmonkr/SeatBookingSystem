@@ -18,13 +18,13 @@ const SeatLegend: React.FC<SeatLegendProps> = ({ seatPrices }) => {
     return (
         <div className="legend mb-6 p-4 bg-white shadow-md rounded-lg">
             <h3 className="text-2xl font-bold mb-4 text-center text-gray-800">Seat Pricing</h3>
-            <div className="flex justify-around">
-                {seatTypes.map(({ label, price, color }) => (
-                    <div key={label} className="flex items-center">
-                        <div className={`w-6 h-6 bg-${color}-200 border border-${color}-500 rounded-full mr-3`}></div>
-                        <span className="text-gray-700">{label} - ₹{price}</span>
-                    </div>
-                ))}
+            <div className="flex flex-col sm:flex-row sm:justify-around">
+            {seatTypes.map(({ label, price, color }) => (
+                <div key={label} className="flex items-center mb-4 sm:mb-0">
+                <div className={`w-6 h-6 bg-${color}-200 border border-${color}-500 rounded-full mr-3`}></div>
+                <span className="text-gray-700">{label} - ₹{price}</span>
+                </div>
+            ))}
             </div>
         </div>
     );
