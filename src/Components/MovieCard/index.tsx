@@ -6,7 +6,9 @@ const MovieCard: React.FC<MovieType> = ({
     id,
     poster_path,
     title,
-    overview
+    overview,
+    director,
+    rating
 }) => {
 
     const navigate = useNavigate();
@@ -21,7 +23,11 @@ const MovieCard: React.FC<MovieType> = ({
                 <img src={poster_path} alt={title} className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 hover:opacity-90" />
             </div>
             <div className="p-4">
-                <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
+                <div className="flex justify-between items-center mt-2">
+                    <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
+                    <p className="text-gray-600">{rating} Rating</p>
+                </div>
+                <p className="text-gray-600 mt-2"><strong>Director:</strong> {director}</p>
                 <p className="text-gray-600 mt-2">{overview}</p>
             </div>
         </div>
